@@ -1,0 +1,78 @@
+/* Page container */
+.addbook-container {
+  max-width: 620px;
+  margin: 60px auto;
+  background-color: #ffffff;
+  padding: 36px 40px;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* Heading */
+.addbook-heading {
+  text-align: left;
+  margin-bottom: 28px;
+  color: #111827;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Form layout */
+.addbook-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Inputs & textarea */
+.addbook-form input,
+.addbook-form textarea {
+  padding: 11px 14px;
+  font-size: 14.5px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.addbook-form input::placeholder,
+.addbook-form textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* Focus */
+.addbook-form input:focus,
+.addbook-form textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Textarea */
+.addbook-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Submit button */
+.addbook-btn {
+  margin-top: 12px;
+  background-color: #071d4c;
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.addbook-btn:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.addbook-btn:active {
+  transform: translateY(0);
+}

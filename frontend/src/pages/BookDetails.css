@@ -1,0 +1,81 @@
+.book-details {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;   /* center horizontally */
+  align-items: center;       /* center vertically */
+  padding: 40px 20px;
+  background-color: #f9fafb;
+}
+
+
+.details-container {
+  max-width: 420px;
+  width: 100%;
+  text-align: center; /* image stays centered */
+}
+
+
+/* Book image */
+.details-image {
+ 
+  height: 300px;
+  object-fit: cover;
+  border-radius: 14px;
+  background-color: #f1f5f9;
+}
+
+/* Right side content */
+.details-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0;
+}
+
+/* Title */
+.details-info h1 {
+  margin-top: 0;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #111827;
+}
+
+/* Text */
+.details-info p {
+  font-size: 15px;
+  line-height: 1;
+  color: #374151;
+  margin-bottom: 10px;
+}
+
+/* Section separator */
+.details-info hr {
+  margin: 24px 0;
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Seller section */
+.details-info h3 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: #1f2937;
+}
+
+/* Seller details */
+.details-info strong {
+  color: #111827;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .details-container {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+
+  .details-image {
+    height: 10px;
+  }
+}
