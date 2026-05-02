@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const { addBook,getApprovedBooks, getMyBooks, editBook, deleteBook,getBookById, getBookDetails} = require('../controllers/bookController');
 const {authMiddleware}  = require('../middleware/authMiddleware');
+const {optionalAuth} = require('../middleware/optionalAuth');
+const upload = require("../middleware/upload");
 
 // 1.Route to add a new book (protected)
-router.post('/add', authMiddleware, addBook);
+router.post('/add', authMiddleware, upload.single("image"),addBook);
 //2. Get all approved books
 router.get(
   "/approved",
@@ -21,5 +23,5 @@ router.delete("/delete/:id", authMiddleware, deleteBook);
 //6. Get a single book by ID
 router.get("/:id", authMiddleware, getBookById);
 //7. Get book details (public)
-router.get("/details/:id", getBookDetails);
+router.get("/details/:id",optionalAuth, getBookDetails);
 module.exports = router;

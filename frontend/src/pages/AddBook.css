@@ -1,7 +1,7 @@
 /* Page container */
 .addbook-container {
   max-width: 620px;
-  margin: 60px auto;
+  margin: 20px auto;
   background-color: #ffffff;
   padding: 36px 40px;
   border-radius: 12px;
@@ -75,4 +75,17 @@
 
 .addbook-btn:active {
   transform: translateY(0);
+}
+
+select {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
 }

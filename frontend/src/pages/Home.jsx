@@ -2,16 +2,18 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../api/axios";
 import "./Home.css";
+import { useLocation } from "react-router-dom";
+
 
 export default function Home() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const location = useLocation();
   useEffect(() => {
     const fetchApprovedBooks = async () => {
       try {
         const res = await axios.get(
-          "/books/approved",
+          `/books/approved${location.search}`,
           { withCredentials: true }
         );
         setBooks(res.data);
@@ -23,7 +25,7 @@ export default function Home() {
     };
 
     fetchApprovedBooks();
-  }, []);
+  }, [location.search]);
 
   if (loading) {
   return <p className="home-empty">Loading books...</p>;

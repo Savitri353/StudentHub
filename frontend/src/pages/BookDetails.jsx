@@ -37,7 +37,14 @@ export default function BookDetails() {
            <hr />
           <h3>Seller Information</h3>
           <p><strong>Name:</strong> {book.owner.name}</p>
-          <p><strong>Phone:</strong> {book.owner.phone}</p>
+
+          {book.owner.phone ? (
+        <p><strong>Phone:</strong> {book.owner.phone}</p>
+        ) : (
+         <p style={{ color: "red" }}>
+          Login to view contact details
+        </p>
+)}
           </div>
       </div>
                   

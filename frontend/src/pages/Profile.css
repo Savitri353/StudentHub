@@ -1,0 +1,91 @@
+.profile-container {
+  width: 80%;
+  margin: 40px auto;
+}
+
+.profile-heading {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 28px;
+  color: #333;
+}
+
+.profile-books {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.profile-card {
+  width: 250px;
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+/* 
+.profile-card:hover {
+  transform: translateY(-4px);
+} */
+
+.profile-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.profile-status {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.approved {
+  color: #071d4c;
+  font-weight: bold;
+}
+
+.pending {
+  color: orange;
+  font-weight: bold;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn {
+  background: #071d4c;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.edit-btn:hover {
+  background: #071d4c;
+}
+
+.delete-btn {
+  background: #e53935;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #c62828;
+}
+
+.profile-image {
+  width: 100%;
+  height: 140px;   /* smaller image */
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background-color: #e5e7eb;
+}

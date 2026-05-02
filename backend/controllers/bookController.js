@@ -10,9 +10,9 @@ exports.addBook = async (req, res) => {
             semester,
             department,
             description,
-            image
+            
     } = req.body;
-
+    const image = req.file ? req.file.path : null; // from upload middleware
      // 1. Validate required fields
     if (!title || !author || !price || !semester || !department || !image) {
       return res.status(400).json({
@@ -45,10 +45,28 @@ exports.addBook = async (req, res) => {
 //2 Get all approved books
 exports.getApprovedBooks = async (req, res) => {
   try {
-    const books = await Book.find({ isApproved: true })
+
+    const { title, semester, department } = req.query;
+
+    let filter = { isApproved: true };
+
+    if (title) {
+      filter.title = { $regex: title, $options: "i" };
+    }
+
+    if (semester) {
+      filter.semester = semester;
+    }
+
+    if (department) {
+      filter.department = department;
+    }
+
+    const books = await Book.find(filter)
       .populate("owner", "name phone");
 
     res.status(200).json(books);
+
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
@@ -174,6 +192,10 @@ exports.getBookDetails = async (req, res) => {
 
     if (!book) {
       return res.status(404).json({message: "Book not found." });
+    }
+     // If user is NOT logged in, remove phone number
+    if (!req.user) {
+      book.owner.phone = undefined;
     }
     res.status(200).json({ book });
    } catch (error) {
