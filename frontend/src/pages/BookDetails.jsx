@@ -3,50 +3,63 @@ import { useParams } from "react-router-dom";
 import axios from "../api/axios";
 import "./BookDetails.css";
 
-export default function BookDetails() {
-      const { id } = useParams();
-      const [book, setBook] = useState(null);
+export default function BookDetails({ bookId }) {
+  const params = useParams();
+  const id = bookId || params.id;
+  const [book, setBook] = useState(null);
 
-    useEffect(() => {
-         const fetchBook = async () => {
-            try {
-                const res = await axios.get(`/books/details/${id}`);
-                setBook(res.data.book);
-            } catch (error) {
-            alert("Book not found");
-            }
-      };
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        const res = await axios.get(`/books/details/${id}`);
+        setBook(res.data.book);
+      } catch (error) {
+        alert("Book not found");
+      }
+    };
 
-      fetchBook();
-      }, [id]);
+    fetchBook();
+  }, [id]);
 
-       if (!book) {
-       return <p>Loading book details...</p>;}
-
-       return (
-        <div className="book-details">
-          <img src={book.image} className="details-image" />
-
-          <div className="details-info">
-          <h1>{book.title}</h1>
-          <p><strong>Author:</strong> {book.author}</p>
-          <p><strong>Price:</strong> ₹ {book.price}</p>
-          <p><strong>Sem:</strong> {book.semester}</p>
-            <p><strong>Department:</strong> {book.department}</p>
-          <p><strong>Description:</strong> {book.description}</p>
-           <hr />
-          <h3>Seller Information</h3>
-          <p><strong>Name:</strong> {book.owner.name}</p>
-
-          {book.owner.phone ? (
-        <p><strong>Phone:</strong> {book.owner.phone}</p>
-        ) : (
-         <p style={{ color: "red" }}>
-          Login to view contact details
-        </p>
-)}
-          </div>
-      </div>
-                  
-       )
+  if (!book) {
+    return <p>Loading book details...</p>;
   }
+
+  return (
+    <div className="book-details">
+      <img src={book.image} className="details-image" />
+
+      <div className="details-info">
+        <h1>{book.title}</h1>
+        <p>
+          <strong>Author:</strong> {book.author}
+        </p>
+        <p>
+          <strong>Price:</strong> ₹ {book.price}
+        </p>
+        <p>
+          <strong>Sem:</strong> {book.semester}
+        </p>
+        <p>
+          <strong>Department:</strong> {book.department}
+        </p>
+        <p>
+          <strong>Description:</strong> {book.description}
+        </p>
+        <hr />
+        <h3>Seller Information</h3>
+        <p>
+          <strong>Name:</strong> {book.owner.name}
+        </p>
+
+        {book.owner.phone ? (
+          <p>
+            <strong>Phone:</strong> {book.owner.phone}
+          </p>
+        ) : (
+          <p style={{ color: "red" }}>Login to view contact details</p>
+        )}
+      </div>
+    </div>
+  );
+}

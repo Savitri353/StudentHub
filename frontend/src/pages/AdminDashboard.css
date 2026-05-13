@@ -119,3 +119,29 @@
 .reject-btn:hover {
   background-color: #b02a37;
 }
+
+.View-details {
+  padding: 6px 12px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #071d4c;;
+  color: white;
+  transition: background 0.2s ease;
+}
+
+.close-details-btn {
+ margin-left:180px;
+ margin-top:0px;
+  padding: 8px 14px;
+  border: none;
+  background-color: crimson;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.close-details-btn:hover {
+  opacity: 0.9;
+}

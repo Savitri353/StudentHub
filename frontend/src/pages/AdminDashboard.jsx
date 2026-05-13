@@ -1,6 +1,7 @@
 import axios from "../api/axios";
 import { useEffect, useState } from "react";
 import "./AdminDashboard.css";
+import BookDetails from "../pages/BookDetails";
 
 export default function AdminDashboard() {
   const [books, setBooks] = useState([]);
@@ -10,6 +11,7 @@ export default function AdminDashboard() {
     pendingCount: 0,
   });
   const [filter, setFilter] = useState("pending");
+  const [selectedBook, setSelectedBook] = useState(null);
 
   // Fetch Summary Data
   const fetchSummary = async () => {
@@ -52,18 +54,14 @@ export default function AdminDashboard() {
     await axios.put(
       `/admin/books/approve/${id}`,
       {},
-      { withCredentials: true }
+      { withCredentials: true },
     );
     fetchBooks(filter);
     fetchSummary();
   };
 
   const rejectBook = async (id) => {
-    await axios.put(
-      `/admin/books/reject/${id}`,
-      {},
-      { withCredentials: true }
-    );
+    await axios.put(`/admin/books/reject/${id}`, {}, { withCredentials: true });
     fetchBooks(filter);
     fetchSummary();
   };
@@ -72,7 +70,7 @@ export default function AdminDashboard() {
     <div className="admin-container">
       <h2 className="admin-heading">Admin Dashboard</h2>
 
-      {/* 🟢 Section 1: Summary Cards */}
+      {/* Section 1: Summary Cards */}
       <div className="admin-summary">
         <div className="summary-card">
           <h4>Total Users</h4>
@@ -90,14 +88,14 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* 🟢 Section 2: Filter Buttons */}
+      {/* Section 2: Filter Buttons */}
       <div className="admin-filters">
         <button onClick={() => fetchBooks("all")}>All</button>
         <button onClick={() => fetchBooks("pending")}>Pending</button>
         <button onClick={() => fetchBooks("approved")}>Approved</button>
       </div>
 
-      {/* 🟢 Section 3: Book Table */}
+      {/* Section 3: Book Table */}
       <table className="admin-table">
         <thead>
           <tr>
@@ -115,6 +113,12 @@ export default function AdminDashboard() {
               <td>{book.owner?.name}</td>
               <td>{book.isApproved ? "Approved" : "Pending"}</td>
               <td>
+                <button
+                  className="View-details"
+                  onClick={() => setSelectedBook(book)}
+                >
+                  View Details
+                </button>
                 {!book.isApproved && (
                   <button
                     className="approve-btn"
@@ -135,6 +139,18 @@ export default function AdminDashboard() {
           ))}
         </tbody>
       </table>
+      {selectedBook && (
+        <div className="admin-book-details">
+          
+          <BookDetails bookId={selectedBook._id} />
+          <button
+            className="close-details-btn"
+            onClick={() => setSelectedBook(null)}
+          >
+            Close
+          </button>
+        </div>
+      )}
     </div>
   );
 }
