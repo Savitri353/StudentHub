@@ -17,7 +17,7 @@ export default function Login() {
       );
 
       alert("Login successful");
-      console.log(res.data.user);
+      // console.log(res.data.user);
         const role = res.data.user.role;
 
       if (role === "admin") {
