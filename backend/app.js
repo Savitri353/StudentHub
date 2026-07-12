@@ -4,11 +4,12 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const path = require("path");
+const _dirname = path.resolve();
 
 const connectDB = require('./config/db');
 connectDB();
 
-const _dirname = path.resolve();
+
 const authRoutes = require('./routes/authRoutes');
 
 app.use(cookieParser());  // Middleware to parse cookies
@@ -33,14 +34,14 @@ app.use('/api/admin/books', require('./routes/adminRoute'));
 
 // app.get("/api/admin/test", authMiddleware, adminMiddleware, (req, res) => {
 //   res.json({
-//     message: "Welcome Admin 🎉",
+//     message: "Welcome Admin ",
 //     user: req.user
 //   });
 // });
 
 // app.get("/api/protected", authMiddleware, (req, res) => {
 //   res.json({
-//     message: "You accessed a protected route 🎉",
+//     message: "You accessed a protected route ",
 //     user: req.user
 //   });
 // });

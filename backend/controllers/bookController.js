@@ -87,50 +87,63 @@ exports.getMyBooks = async (req, res) => {
 //4 Edit a book
 exports.editBook = async (req, res) => {
   try {
-    const bookId = req.params.id;
-    const userId = req.user.userId; // from authMiddleware
+    const { id: bookId } = req.params;
+    const userId = req.user.userId;
+
+    const {
+      title,
+      author,
+      price,
+      semester,
+      department,
+      description,
+    } = req.body;
 
     const book = await Book.findById(bookId);
 
     if (!book) {
       return res.status(404).json({
-        message: "Book not found."
+        message: "Book not found.",
       });
     }
 
-    // 🔐 OWNER CHECK
-    if (book.owner.toString() !== userId) {
+    // Owner check
+    if (book.owner.toString() !== userId.toString()) {
       return res.status(403).json({
-        message: "You are not allowed to edit this book."
+        message: "You are not allowed to edit this book.",
       });
     }
 
-    // ✏️ Update fields
-    book.title = req.body.title || book.title;
-    book.author = req.body.author || book.author;
-    book.price = req.body.price || book.price;
-    book.semester = req.body.semester || book.semester;
-    book.department = req.body.department || book.department;
-    book.description = req.body.description || book.description;
-    book.image = req.body.image || book.image;
+    // Update only provided fields
+    if (title) book.title = title;
+    if (author) book.author = author;
+    if (price) book.price = price;
+    if (semester) book.semester = semester;
+    if (department) book.department = department;
+    if (description !== undefined) book.description = description;
 
-    // 🔁 Re-approval required after edit
+    // Update image only if a new one is uploaded
+    if (req.file) {
+      book.image = req.file.path;
+    }
+
+    // Require admin approval again
     book.isApproved = false;
 
     await book.save();
 
-    res.json({
+    return res.status(200).json({
       message: "Book updated successfully and sent for re-approval.",
-      book
+      book,
     });
-
   } catch (error) {
-    res.status(500).json({
-      message: "Something went wrong while updating the book."
+    console.error("Edit Book Error:", error);
+
+    return res.status(500).json({
+      message: "Something went wrong while updating the book.",
     });
   }
 };
-
 //5 Delete a book
 exports.deleteBook = async (req, res) => {
   try {

@@ -127,6 +127,22 @@ function AddBook() {
         <button type="submit" className="addbook-btn">
           Add Book
         </button>
+
+        <h4>📢 Listing Policy</h4>
+        <ul>
+          <li>Only academic books and study-related equipment are allowed.</li>
+          <li>
+            Examples: Books, EGD instruments, calculators, and laboratory kits.
+          </li>
+          <li>
+            Items such as laptops, mobile phones, tablets, headphones,
+            furniture, and other unrelated products are strictly prohibited.
+          </li>
+          <li>
+            Every listing is reviewed by the administrator before it becomes
+            visible to other students.
+          </li>
+        </ul>
       </form>
     </div>
   );

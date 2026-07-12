@@ -1,0 +1,113 @@
+/* Page container */
+.editbook-container {
+  max-width: 620px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  padding: 36px 40px;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Heading */
+.editbook-heading {
+  text-align: left;
+  margin-bottom: 28px;
+  color: #111827;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Form layout */
+.editbook-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Inputs */
+.editbook-form input,
+.editbook-form textarea,
+.editbook-form select {
+  padding: 11px 14px;
+  font-size: 14.5px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.editbook-form input::placeholder,
+.editbook-form textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* Focus */
+.editbook-form input:focus,
+.editbook-form textarea:focus,
+.editbook-form select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Textarea */
+.editbook-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Labels */
+.editbook-form label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Current image */
+.current-book-image {
+  width: 180px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+/* Buttons */
+.editbook-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.editbook-btn,
+.cancel-btn {
+  flex: 1;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.editbook-btn {
+  background-color: #071d4c;
+  color: white;
+}
+
+.editbook-btn:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.cancel-btn {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+.cancel-btn:hover {
+  background-color: #d1d5db;
+  transform: translateY(-1px);
+}

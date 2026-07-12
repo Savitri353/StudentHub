@@ -17,7 +17,7 @@ router.get(
 router.get("/my-books", authMiddleware, getMyBooks);
 
 //6. Edit a book
-router.put("/edit/:id", authMiddleware, editBook);
+router.put("/edit/:id", authMiddleware, upload.single("image"), editBook);
 //5.delete a book
 router.delete("/delete/:id", authMiddleware, deleteBook);
 //6. Get a single book by ID

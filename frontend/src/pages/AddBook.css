@@ -89,3 +89,13 @@ select {
   outline: none;
   transition: all 0.3s ease;
 }
+
+.listing-notice h4 {
+  margin: 0;
+  color: #333;
+}
+
+.listing-notice ul {
+  margin: 8px 0 0 20px;
+  padding: 0;
+}

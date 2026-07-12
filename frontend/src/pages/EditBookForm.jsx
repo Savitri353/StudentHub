@@ -1,27 +1,25 @@
 import axios from "../api/axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./EditBook.css";
+import "./EditBookForm.css";
 
 export default function EditBookForm() {
-  const { id } = useParams();        //  book ID from URL
+  const { id } = useParams();
   const navigate = useNavigate();
 
-  const [form, setForm] = useState(null); // start as null
+  const [form, setForm] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 🔹 Fetch book and set previous values
+  // Fetch existing book details
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const res = await axios.get(
-          `/books/${id}`,
-          { withCredentials: true }
-        );
+        const res = await axios.get(`/books/${id}`, {
+          withCredentials: true,
+        });
 
         const book = res.data.book;
 
-        // ✅ PREVIOUS VALUES SET HERE
         setForm({
           title: book.title,
           author: book.author,
@@ -29,9 +27,9 @@ export default function EditBookForm() {
           semester: book.semester,
           department: book.department,
           description: book.description || "",
-          image: book.image
+          image: null, // New uploaded file
+          oldImage: book.image, // Existing image URL
         });
-
       } catch (error) {
         alert("Failed to load book details");
       } finally {
@@ -42,7 +40,6 @@ export default function EditBookForm() {
     fetchBook();
   }, [id]);
 
-  // Prevent crash while loading
   if (loading) {
     return <p>Loading book details...</p>;
   }
@@ -50,87 +47,148 @@ export default function EditBookForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const data = new FormData();
+
+    data.append("title", form.title);
+    data.append("author", form.author);
+    data.append("price", form.price);
+    data.append("semester", form.semester);
+    data.append("department", form.department);
+    data.append("description", form.description);
+
+    // Send image only if a new one is selected
+    if (form.image) {
+      data.append("image", form.image);
+    }
+
     try {
-      await axios.put(
-        `/books/edit/${id}`,
-        form,
-        { withCredentials: true }
-      );
+      await axios.put(`/books/edit/${id}`, data, {
+        withCredentials: true,
+      });
 
       alert("Book updated and sent for approval");
-      navigate("/profile"); //  go back to profile
-
+      navigate("/profile");
     } catch (error) {
       alert(error.response?.data?.message || "Update failed");
     }
   };
 
   return (
-    <div className="edit-overlay">
-      <form className="edit-form" onSubmit={handleSubmit}>
-        <h3>Edit Book</h3>
+    <div className="editbook-container">
+      <h2 className="editbook-heading">Edit Book</h2>
 
+      <form
+        className="editbook-form"
+        onSubmit={handleSubmit}
+        encType="multipart/form-data"
+      >
+        <label htmlFor="title">Book Title</label>
         <input
+          id="title"
           value={form.title}
-          onChange={(e) =>
-            setForm({ ...form, title: e.target.value })
-          }
-          placeholder="Title"
+          onChange={(e) => setForm({ ...form, title: e.target.value })}
+          placeholder="Book Title"
+          required
         />
 
+        <label htmlFor="author">Author</label>
         <input
+          id="author"
           value={form.author}
-          onChange={(e) =>
-            setForm({ ...form, author: e.target.value })
-          }
+          onChange={(e) => setForm({ ...form, author: e.target.value })}
           placeholder="Author"
+          required
         />
 
+        <label htmlFor="price">Price (₹)</label>
         <input
+          id="price"
           type="number"
           value={form.price}
-          onChange={(e) =>
-            setForm({ ...form, price: e.target.value })
-          }
+          onChange={(e) => setForm({ ...form, price: e.target.value })}
           placeholder="Price"
+          required
         />
 
+        <label htmlFor="semester">Semester</label>
         <input
+          id="semester"
           value={form.semester}
-          onChange={(e) =>
-            setForm({ ...form, semester: e.target.value })
-          }
+          onChange={(e) => setForm({ ...form, semester: e.target.value })}
           placeholder="Semester"
+          required
         />
 
-        <input
+        <label htmlFor="department">Department</label>
+        <select
+          id="department"
           value={form.department}
-          onChange={(e) =>
-            setForm({ ...form, department: e.target.value })
-          }
-          placeholder="Department"
-        />
+          onChange={(e) => setForm({ ...form, department: e.target.value })}
+          required
+        >
+          <option value="">Select Department</option>
 
+          <option>Artificial Intelligence and Machine Learning</option>
+          <option>Automobile Engineering</option>
+          <option>Biomedical Engineering</option>
+          <option>Chemical Engineering</option>
+          <option>Civil Engineering</option>
+          <option>Computer Engineering</option>
+          <option>Electrical Engineering</option>
+          <option>Electronics and Communication Engineering</option>
+          <option>Environmental Engineering</option>
+          <option>Information Technology</option>
+          <option>Inst. & Control Engg.</option>
+          <option>Mechanical Engineering</option>
+          <option>Plastic Technology</option>
+          <option>Robotics and Automation</option>
+          <option>Rubber Technology</option>
+          <option>Science and Humanities</option>
+          <option>Textile Technology</option>
+        </select>
+
+        <label htmlFor="description">Description</label>
         <textarea
+          id="description"
           value={form.description}
-          onChange={(e) =>
-            setForm({ ...form, description: e.target.value })
-          }
+          onChange={(e) => setForm({ ...form, description: e.target.value })}
           placeholder="Description"
         />
 
+        {form.oldImage && (
+          <>
+            <label>Current Image</label>
+            <img
+              src={form.oldImage}
+              alt="Current Book"
+              className="current-book-image"
+            />
+          </>
+        )}
+
+        <label htmlFor="image">Choose New Image (Optional)</label>
         <input
-          type="text"
-          value={form.image}
+          id="image"
+          type="file"
+          accept="image/*"
           onChange={(e) =>
-            setForm({ ...form, image: e.target.value })
+            setForm({
+              ...form,
+              image: e.target.files[0],
+            })
           }
-          placeholder="Image URL"
         />
 
-        <div className="edit-actions">
-          <button type="submit">Update</button>
-          <button type="button" onClick={() => navigate("/profile")}>
+        <div className="editbook-actions">
+          <button type="submit" className="editbook-btn">
+            Update Book
+          </button>
+
+          <button
+            type="button"
+            className="cancel-btn"
+            onClick={() => navigate("/profile")}
+          >
             Cancel
           </button>
         </div>

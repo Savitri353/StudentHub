@@ -9,7 +9,7 @@ export default function Footer() {
         </p>
 
         <div className="footer-extra">
-          <span>Built by Savi</span>
+          <span>Built by Savitri</span>
         </div>
       </div>
     </footer>
