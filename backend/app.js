@@ -15,7 +15,7 @@ const authRoutes = require('./routes/authRoutes');
 app.use(cookieParser());  // Middleware to parse cookies
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://studenthub-0fzz.onrender.com",
   credentials: true
 }));
 app.use(express.json());    // Middleware to parse JSON bodies

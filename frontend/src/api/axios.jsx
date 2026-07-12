@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://studenthub-0fzz.onrender.com/api",
   withCredentials: true
 });
