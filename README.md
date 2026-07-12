@@ -1,6 +1,8 @@
 # StudentHub – MERN Stack Web Application
 
 StudentHub is a full-stack MERN web application developed for our college students to buy, sell, exchange, and donate second-hand academic books and study materials.
+##  Live Demo
+[StudentHub Live Demo](https://studenthub-0fzz.onrender.com)
 
 The platform aims to make educational resources more affordable and accessible for students while reducing the unnecessary waste of academic books.
 
