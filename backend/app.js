@@ -14,10 +14,31 @@ const authRoutes = require('./routes/authRoutes');
 
 app.use(cookieParser());  // Middleware to parse cookies
 
+// app.use(cors({
+//   origin: "https://studenthub-0fzz.onrender.com",
+//   credentials: true
+// }));
+
+const allowedOrigins = [
+   "http://localhost:5000",
+  "http://localhost:5173",
+  "https://studenthub-0fzz.onrender.com"
+];
+
 app.use(cors({
-  origin: "https://studenthub-0fzz.onrender.com",
-  credentials: true
+  origin: function (origin, callback) {
+    console.log("Request Origin:", origin);
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log("Blocked Origin:", origin);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 }));
+
 app.use(express.json());    // Middleware to parse JSON bodies
 
 app.use(express.urlencoded({ extended: true }));  // Middleware to parse URL-encoded bodies      

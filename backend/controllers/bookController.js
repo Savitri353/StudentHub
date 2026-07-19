@@ -1,26 +1,20 @@
-const Book = require('../models/Book');
+const Book = require("../models/Book");
 
 //1 Create a new book
 exports.addBook = async (req, res) => {
-    try {
-        const {
-            title,
-            author,
-            price,
-            semester,
-            department,
-            description,
-            
-    } = req.body;
+  try {
+    const { title, author, price, semester, department, description } =
+      req.body;
     const image = req.file ? req.file.path : null; // from upload middleware
-     // 1. Validate required fields
+    // 1. Validate required fields
     if (!title || !author || !price || !semester || !department || !image) {
       return res.status(400).json({
-        message: "All required fields must be filled"
+        message: "All required fields must be filled",
       });
     }
 
-     // 2. Create new book
+  
+    // 2. Create new book
     const book = await Book.create({
       title,
       author,
@@ -29,15 +23,15 @@ exports.addBook = async (req, res) => {
       department,
       description,
       image,
-      owner: req.user.userId // from auth middleware
+      owner: req.user.userId, // from auth middleware
     });
 
-       // 3. Send response
+    // 3. Send response
     res.status(201).json({
       message: "Book added successfully. Waiting for admin approval.",
-      book
+      book,
     });
-   } catch (error) {
+  } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
@@ -45,7 +39,6 @@ exports.addBook = async (req, res) => {
 //2 Get all approved books
 exports.getApprovedBooks = async (req, res) => {
   try {
-
     const { title, semester, department } = req.query;
 
     let filter = { isApproved: true };
@@ -62,11 +55,9 @@ exports.getApprovedBooks = async (req, res) => {
       filter.department = department;
     }
 
-    const books = await Book.find(filter)
-      .populate("owner", "name phone");
+    const books = await Book.find(filter).populate("owner", "name phone");
 
     res.status(200).json(books);
-
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
@@ -75,8 +66,9 @@ exports.getApprovedBooks = async (req, res) => {
 //3 Profile page – logged-in user's books
 exports.getMyBooks = async (req, res) => {
   try {
-    const books = await Book.find({ owner: req.user.userId })
-      .sort({ createdAt: -1 });
+    const books = await Book.find({ owner: req.user.userId }).sort({
+      createdAt: -1,
+    });
 
     res.status(200).json(books);
   } catch (error) {
@@ -90,14 +82,8 @@ exports.editBook = async (req, res) => {
     const { id: bookId } = req.params;
     const userId = req.user.userId;
 
-    const {
-      title,
-      author,
-      price,
-      semester,
-      department,
-      description,
-    } = req.body;
+    const { title, author, price, semester, department, description } =
+      req.body;
 
     const book = await Book.findById(bookId);
 
@@ -154,26 +140,25 @@ exports.deleteBook = async (req, res) => {
 
     if (!book) {
       return res.status(404).json({
-        message: "Book not found."
+        message: "Book not found.",
       });
     }
 
     // 🔐 OWNER CHECK
     if (book.owner.toString() !== userId) {
       return res.status(403).json({
-        message: "You are not allowed to delete this book."
+        message: "You are not allowed to delete this book.",
       });
     }
 
     await book.deleteOne();
 
     res.json({
-      message: "Book deleted successfully."
+      message: "Book deleted successfully.",
     });
-
   } catch (error) {
     res.status(500).json({
-      message: "Something went wrong while deleting the book."
+      message: "Something went wrong while deleting the book.",
     });
   }
 };
@@ -181,37 +166,36 @@ exports.deleteBook = async (req, res) => {
 //6 Get single book by ID (for EditBookForm)
 exports.getBookById = async (req, res) => {
   try {
-    const bookId = req.params.id;     
+    const bookId = req.params.id;
     const book = await Book.findById(bookId);
 
     if (!book) {
       return res.status(404).json({
-        message: "Book not found."
+        message: "Book not found.",
       });
     }
     res.status(200).json({ book });
   } catch (error) {
     res.status(500).json({
-      message: "Server error"
+      message: "Server error",
     });
   }
 };
 
 exports.getBookDetails = async (req, res) => {
-   try {
+  try {
     const bookId = req.params.id;
-    const book = await Book.findById(bookId)
-    .populate("owner", "name phone"); // 👈 seller details
+    const book = await Book.findById(bookId).populate("owner", "name phone"); // 👈 seller details
 
     if (!book) {
-      return res.status(404).json({message: "Book not found." });
+      return res.status(404).json({ message: "Book not found." });
     }
-     // If user is NOT logged in, remove phone number
+    // If user is NOT logged in, remove phone number
     if (!req.user) {
       book.owner.phone = undefined;
     }
     res.status(200).json({ book });
-   } catch (error) {
+  } catch (error) {
     res.status(500).json({ message: "Server error" });
-   }
+  }
 };

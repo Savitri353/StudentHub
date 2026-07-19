@@ -7,27 +7,19 @@ export default function Signup() {
     name: "",
     email: "",
     password: "",
-    phone: ""
+    phone: "",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        "/auth/signup",
-        form,
-        { withCredentials: true }
-      );
+      const res = await axios.post("/auth/signup", form);
 
-      const role = res.data.user.role;
+      alert(res.data.message);
 
-      if (role === "admin") {
-        window.location.href = "/admin/AdminDashboard";
-      } else {
-        window.location.href = "/";
-      }
-
+      // Redirect user to login page
+      window.location.href = "/login";
     } catch (error) {
       console.log("Signup error:", error.response);
       alert(error.response?.data?.message || "Signup failed");
@@ -43,18 +35,15 @@ export default function Signup() {
           className="signup-input"
           placeholder="Name"
           value={form.name}
-          onChange={(e) =>
-            setForm({ ...form, name: e.target.value })
-          }
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
 
         <input
+          type="email"
           className="signup-input"
-          placeholder="Email"
+          placeholder="Email  (@ldce.ac.in)"
           value={form.email}
-          onChange={(e) =>
-            setForm({ ...form, email: e.target.value })
-          }
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
 
         <input
@@ -62,19 +51,16 @@ export default function Signup() {
           type="password"
           placeholder="Password"
           value={form.password}
-          onChange={(e) =>
-            setForm({ ...form, password: e.target.value }) 
-          }
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
-        
+
         <input
           className="signup-input"
           placeholder="Phone"
           value={form.phone}
-          onChange={(e) =>
-            setForm({ ...form, phone: e.target.value })}  maxLength={10}
+          onChange={(e) => setForm({ ...form, phone: e.target.value })}
+          maxLength={10}
         />
-
 
         <button type="submit" className="signup-button">
           Signup

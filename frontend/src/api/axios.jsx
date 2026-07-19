@@ -1,6 +1,7 @@
-import axios from "axios";
+  import axios from "axios";
 
-export default axios.create({
-  baseURL: "https://studenthub-0fzz.onrender.com/api",
-  withCredentials: true
-});
+  console.log("API URL:", import.meta.env.VITE_API_URL);
+  export default axios.create({
+    baseURL: `${import.meta.env.VITE_API_URL}/api`,
+    withCredentials: true
+  });

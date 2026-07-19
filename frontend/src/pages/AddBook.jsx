@@ -92,7 +92,15 @@ function AddBook() {
           onChange={handleChange}
           required
         />
-
+        <div className="pricing-note">
+          <h4>💡 Student-Friendly Pricing</h4>
+          <p>
+            StudentHub is a student-to-student marketplace. Please list your
+            books and study materials at a fair and affordable price. Our goal
+            is to help fellow students save money while allowing sellers to
+            recover part of their cost.
+          </p>
+        </div>
         <input
           name="semester"
           placeholder="Semester"
@@ -138,6 +146,7 @@ function AddBook() {
             Items such as laptops, mobile phones, tablets, headphones,
             furniture, and other unrelated products are strictly prohibited.
           </li>
+
           <li>
             Every listing is reviewed by the administrator before it becomes
             visible to other students.
