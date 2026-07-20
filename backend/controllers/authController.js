@@ -3,27 +3,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
 
-const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false,
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
-  auth: {
-    user: process.env.BREVO_LOGIN,
-    pass: process.env.BREVO_SMTP_KEY,
-  },
-});
+const { BrevoClient } = require("@getbrevo/brevo");
 
-transporter.verify((err, success) => {
-  if (err) {
-    console.error("SMTP VERIFY ERROR:", err);
-  } else {
-    console.log("SMTP READY:", success);
-  }
+const brevo = new BrevoClient({
+  apiKey: process.env.BREVO_API_KEY,
 });
 
 exports.signup = async (req, res) => {
@@ -46,7 +30,7 @@ exports.signup = async (req, res) => {
       });
     }
     // 2. Check if user already exists
-    const existingUser = await User.findOne({ email:cleanEmail});
+    const existingUser = await User.findOne({ email: cleanEmail });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
@@ -59,7 +43,7 @@ exports.signup = async (req, res) => {
     // 4. Create new user  FIXED (await added)
     const user = await User.create({
       name,
-      email:cleanEmail,
+      email: cleanEmail,
       password: hashedPassword,
       phone,
       isVerified: false,
@@ -68,11 +52,18 @@ exports.signup = async (req, res) => {
 
     const verifyUrl = `${process.env.BASE_URL}/api/auth/verify/${verificationToken}`;
 
-    await transporter.sendMail({
-      from: process.env.EMAIL,
-      to: cleanEmail,
+    await brevo.transactionalEmails.sendTransacEmail({
+      sender: {
+        name: "StudentHub",
+        email: process.env.EMAIL,
+      },
+      to: [
+        {
+          email: cleanEmail,
+        },
+      ],
       subject: "Verify your StudentHub Account",
-      html: `
+      htmlContent: `
     <h2>Welcome to StudentHub!</h2>
     <p>Please click the button below to verify your email.</p>
 
