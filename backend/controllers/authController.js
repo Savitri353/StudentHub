@@ -9,10 +9,21 @@ const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
   port: 587,
   secure: false,
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
   auth: {
     user: process.env.BREVO_LOGIN,
     pass: process.env.BREVO_SMTP_KEY,
   },
+});
+
+transporter.verify((err, success) => {
+  if (err) {
+    console.error("SMTP VERIFY ERROR:", err);
+  } else {
+    console.log("SMTP READY:", success);
+  }
 });
 
 exports.signup = async (req, res) => {
